@@ -1,0 +1,1 @@
+cmd_/home/matheus/Documentos/Damas/driver_exemplo_read_write/driver.ko := ld -r -m elf_x86_64  -z max-page-size=0x200000 -T ./scripts/module-common.lds  --build-id  -o /home/matheus/Documentos/Damas/driver_exemplo_read_write/driver.ko /home/matheus/Documentos/Damas/driver_exemplo_read_write/driver.o /home/matheus/Documentos/Damas/driver_exemplo_read_write/driver.mod.o ;  true
