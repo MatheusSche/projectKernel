@@ -182,7 +182,22 @@ void exibeMatriz(){
     printf("Peças Pretas:  [%d]\n", qtdP2);
     for (x = 0; x <= 9; x++){
         for (y = 0; y <= 9; y++){
-            printf("%c ", matriz[x][y]);
+            if ( matriz[x][y] == 112 )  {
+                printf("\033[1;31m"); // Muda a cor do printf para vermelho
+                printf("● ", matriz[x][y]);
+            } else if (matriz[x][y] == 98 ) {
+                printf("\033[1;34m"); // Muda a cor do printf para azul
+                printf("● ", matriz[x][y]);
+            } else if ( matriz[x][y] == 45 ) {               
+                if ( (x + y) % 2 == 1 ) {
+                    printf("▢ ", matriz[x][y]); // Coloca um quadrado caso for um lugar que pode ir
+                } else {
+                    printf("⋅ ", matriz[x][y]);
+                }
+            }  else {
+                printf("%c ", matriz[x][y]);
+            }             
+            printf("\033[0m"); // Reseta a cor do printf
 
              if (y == 9){
                 printf("\n");
