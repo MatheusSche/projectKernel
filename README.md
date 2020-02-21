@@ -11,8 +11,8 @@ Jogo de damas para 2 jogadores simultaneos, feito via kernel do linux. </br>
 </br>
 <strong>Comandos para carregar o jogo:</strong> </br>
 1. gcc -o damas damas.c </br>
-2. ./damas 
-</br>
+2. ./damas </br>
+
 <strong>Para reiniciar o driver:</strong> </br>
 1. ./comand.sh
 </br>
