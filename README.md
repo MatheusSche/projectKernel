@@ -1,6 +1,10 @@
 # Damas multijogador via driver
 
-Jogo de damas para 2 jogadores simultaneos, feito via kernel do linux. </br>
+Implementação de um programa de “Damas”, onde os dois usuários se
+enfrentam utilizando dois programas distintos na mesma máquina. Para comunicação entre os programas
+foi utilizado os conceitos de um dispositivo virtual do tipo caracter (/dev/so).
+A comunicação entre os programas é feita através de um dispositivo virtual do tipo caracter.
+Toda a comunicação é realizada através da chamada de sistema ioctl. </br>
 
 <h3>Como executar...</h3>
 <strong>Comandos para carregar o driver:</strong> </br>
