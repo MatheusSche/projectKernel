@@ -15,7 +15,7 @@ Jogo de damas para 2 jogadores simultaneos, feito via kernel do linux. </br>
 
 <strong>Para reiniciar o driver:</strong>
 1. ./comand.sh
-</br>
+
 
 <h3>Terminal</h3>
 
