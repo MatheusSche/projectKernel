@@ -1,4 +1,4 @@
-# Damas multijogador via driver
+# Damas C
 
 Implementação de um programa de “Damas”, onde os dois usuários se
 enfrentam utilizando dois programas distintos na mesma máquina. Para comunicação entre os programas
