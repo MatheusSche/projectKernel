@@ -7,25 +7,11 @@
 
 #define DEVICE_NAME "/dev/so"
 
-//"01212M-p-p-p-pp-p-p-p--p-p-p-p----------------b-b-b-b--b-b-b-bb-b-b-b-0"
 char code[100];
 char sendCode[100];
 char originalCode[100] = "01212M-p-p-p-pp-p-p-p--p-p-p-p----------------b-b-b-b--b-b-b-bb-b-b-b-0";
 int fp, rv, ret;
-/*
-char matriz[10][10] = {
- {' ', '1', '2', '3', '4', '5', '6', '7', '8', ' '},
- {'1', '-', 'p', '-', 'p', '-', 'p', '-', 'p', '1'},
- {'2', 'p', '-', 'p', '-', 'p', '-', 'p', '-', '2'},
- {'3', '-', 'p', '-', 'p', '-', 'p', '-', 'p', '3'},
- {'4', '-', '-', '-', '-', '-', '-', '-', '-', '4'},
- {'5', '-', '-', '-', '-', '-', '-', '-', '-', '5'},
- {'6', 'b', '-', 'b', '-', 'b', '-', 'b', '-', '6'},
- {'7', '-', 'b', '-', 'b', '-', 'b', '-', 'b', '7'},
- {'8', 'b', '-', 'b', '-', 'b', '-', 'b', '-', '8'},
- {' ', '1', '2', '3', '4', '5', '6', '7', '8', ' '}
- };
- */
+
 char matriz[10][10] = {
  {' ', '1', '2', '3', '4', '5', '6', '7', '8', ' '},
  {'1', '-', '-', '-', '-', '-', '-', '-', '-', '1'},
@@ -38,6 +24,7 @@ char matriz[10][10] = {
  {'8', '-', '-', '-', '-', '-', '-', '-', '-', '8'},
  {' ', '1', '2', '3', '4', '5', '6', '7', '8', ' '}
 };
+
 char tabuleiro[10][10] = {
  {'-','-','-','-','-','-','-','-','-','-'},
  {'-','c','e','c','e','c','e','c','e','-'},
@@ -57,6 +44,19 @@ int player1 = 1, player2 = 2, playerTime = 0, qtdP1=12, qtdP2=12;
 int euSou = 0;
 char vitoria = '0';
 
+#define RED           "\x1b[31;1m"
+#define GREEN         "\x1b[32;1m"
+#define BLUE          "\x1b[34;1m"
+#define COLOR_RESET   "\x1b[0m"
+
+void reseta_cores()
+{
+  printf(COLOR_RESET);
+}
+
+void imprimeInfo (){
+
+}
 
 void montaString(){
     //para pegar o placar
@@ -65,7 +65,7 @@ void montaString(){
     sendCode[0] = playerTime+48;
     printf("Eu sou %s\n", sendCode);
 
-    //monta placar da branca
+    //monta placar da azul
     sprintf(p1,"%d",qtdP1);
     printf("%s\n", p1);
     //concatena a string7
@@ -77,7 +77,7 @@ void montaString(){
         sendCode[2] = p1[0];
     }
     
-    //monta placar da branca
+    //monta placar da azul
     sprintf(p2,"%d",qtdP2);
     
     //concatena a st
@@ -131,7 +131,7 @@ void extraiString(){
          playerTime = 2;
      } 
      printf("Eu sou: [%d]\n", euSou);
-     //converte o placar das peças brancas 
+     //converte o placar das peças azul
      if(code[1]=='0'){
          p1[0] = code[2];
          qtdP1 = p1[0]-48;
@@ -143,7 +143,7 @@ void extraiString(){
 
      }
      printf("Minhas Peças[%d]\n", qtdP1);
-     //coverte o placar de peças pretas
+     //coverte o placar de peças vermelhas
      
      if(code[3]=='0'){
          p2[0] = code[4];
@@ -172,23 +172,50 @@ void extraiString(){
 
 void exibeMatriz(){
     printf("\n");
-    if(playerTime==1){
-        printf("Vez do jogador 1\n");
-    }
-    if(playerTime==2){
-        printf("Vez do jogador 2\n\n");
-    }
-    printf("Peças Brancas: [%d]\n", qtdP1);
-    printf("Peças Pretas:  [%d]\n", qtdP2);
+
+    printf("Peças Azuis:     %d "BLUE"●"COLOR_RESET"\n", qtdP1);
+    printf("Peças Vermelhas: %d "RED"●"COLOR_RESET"\n\n", qtdP2);
+
     for (x = 0; x <= 9; x++){
         for (y = 0; y <= 9; y++){
-            printf("%c ", matriz[x][y]);
+            if ( matriz[x][y] == 112 )  {
+                printf(RED); 
+                printf("● ", matriz[x][y]);
+            } else if (matriz[x][y] == 98 ) {
+                printf(BLUE);
+                printf("● ", matriz[x][y]);
+            } else if (matriz[x][y] == 66 ) {
+                printf(BLUE);
+                printf("◎ ", matriz[x][y]);
+            } else if (matriz[x][y] == 80 ) {
+                printf(RED); 
+                printf("◎ ", matriz[x][y]);
+            } else if ( matriz[x][y] == 45 ) {               
+                if ( (x + y) % 2 == 1 ) {
+                    printf("▢ ", matriz[x][y]);
+                } else {
+                    printf("⋅ ", matriz[x][y]);
+                }
+            }  else {
+                printf("%c ", matriz[x][y]);
+            }
+                         
+            printf(COLOR_RESET); // Reseta a cor do printf
 
              if (y == 9){
                 printf("\n");
              }
         }
          y = 0;
+    }
+
+    if(playerTime==1){
+        printf("\nVez do jogador 1");
+        printf(BLUE" ●\n"COLOR_RESET);
+    }
+    if(playerTime==2){
+        printf("\nVez do jogador 2");
+        printf(RED" ●\n"COLOR_RESET);
     }
  
 }
@@ -913,7 +940,7 @@ void realizaJogada(){
             //Recebendo Origem
             printf("\nQual deseja mover?\n\tLinha: ");
             scanf(" %d", &linhaOrigem);
-            printf("\t Coluna: ");
+            printf("\tColuna: ");
             scanf(" %d", &colunaOrigem);
             // valida a escolha da peça
             if((matriz[linhaOrigem][colunaOrigem]=='b' && playerTime==1) || (matriz[linhaOrigem][colunaOrigem]=='B' && playerTime==1)){
@@ -1145,41 +1172,40 @@ int main(){
     
     while (vitoriaJogo == 0){
         ocupado = leDrive();
+        
         if(ocupado==1){
             if(code[0]-48!=euSou){
-            fp = open("/dev/so", O_RDWR);
-            if ( fp < 0 ){
-                perror("Nao foi possivel acessar\n");
-                //exit(0);
-            }
+                fp = open("/dev/so", O_RDWR);
+                if ( fp < 0 ){
+                    perror("Nao foi possivel acessar\n");
+                }
 
-            rv = read(fp, code);
-            printf("%s\n", code);
-            
-            extraiString();
-            
-            exibeMatriz();
+                rv = read(fp, code);
+                printf("%s\n", code);
                 
-            realizaJogada();
-            
-            vitoriaJogo = validaVitoria();
+                extraiString();
+                
+                exibeMatriz();
+                    
+                realizaJogada();
+                
+                vitoriaJogo = validaVitoria();
 
-            montaString();
-            
-            ret = write(fp, sendCode, 100);
-            clear_buffer(code);
-            clear_buffer(sendCode);
-            close(fp); 
-
+                montaString();
+                
+                ret = write(fp, sendCode, 100);
+                clear_buffer(code);
+                clear_buffer(sendCode);
+                close(fp); 
         }
 
-        ocupado = leDrive();
-        printf("Aguarde1 - \n");
-        sleep(2);
+            ocupado = leDrive();
+            printf("Aguarde1 - \n");
+            sleep(2);
             
         }
         printf("Aguarde2 - \n");
-        sleep(2);
+        sleep(2);  
         
     }
 

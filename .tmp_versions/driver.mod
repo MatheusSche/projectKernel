@@ -1,3 +1,3 @@
-/home/matheus/Documentos/Damas/driver_exemplo_read_write/driver.ko
-/home/matheus/Documentos/Damas/driver_exemplo_read_write/driver.o
+/home/matheus/Documentos/Github-projects/projectKernel/driver.ko
+/home/matheus/Documentos/Github-projects/projectKernel/driver.o
 
